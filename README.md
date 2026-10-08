@@ -85,3 +85,10 @@ A declined card is `402`. The cart stays `active` and stock is left as it was.
 - The cart row is locked for the request, and product rows are locked before the charge, so two overlapping checkouts cannot both take the last item or both mark the cart paid.
 - The mock runs inside the database transaction. A real processor would need a recorded pending charge and a way to reconcile if we crash after the processor says yes and before we commit. That is out of scope here.
 - If a user has more than one default card, the newest one is used.
+
+## Output results
+
+<img width="479" height="295" alt="image" src="https://github.com/user-attachments/assets/bbc020d0-f2ad-447a-aeb3-8e03924c8a14" />
+<img width="836" height="242" alt="image" src="https://github.com/user-attachments/assets/118d1b5e-39c0-4c3f-af58-585abc85bc1c" />
+<img width="849" height="223" alt="image" src="https://github.com/user-attachments/assets/50a937e9-6109-41b3-9c16-054e26f8c1fc" />
+<img width="844" height="335" alt="image" src="https://github.com/user-attachments/assets/c7ef1472-3fc6-457e-896a-6628d8ff7b3f" />
