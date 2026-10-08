@@ -25,15 +25,18 @@ Get-Content schema\001_base.sql, schema\002_payments.sql | docker compose exec -
 flask --app app run
 ```
 
-bash:
+Git Bash on Windows:
 
 ```bash
-source .venv/bin/activate
+source .venv/Scripts/activate
 pip install -r requirements.txt
 export DATABASE_URL=postgresql+psycopg://shop:shop@localhost:5432/shop
 cat schema/001_base.sql schema/002_payments.sql | docker compose exec -T db psql -U shop -d shop
 flask --app app run
+python -m pytest
 ```
+
+`Activate.ps1` only works in PowerShell. In Git Bash it does not switch the shell onto the virtualenv, so `pytest` keeps using another Python and cannot see this project.
 
 `001_base.sql` is the schema that came with the task. Run it on an empty database. `002_payments.sql` is the migration for this task. The base file also inserts Alice, a cart (kettle + two mugs, 70.00 USD) and her Visa token.
 
@@ -48,7 +51,7 @@ curl -X POST http://127.0.0.1:5000/carts/c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1/pa
 The tests create a `shop_test` database on the same Postgres (user `shop`, password `shop`, port 5432), load both SQL files, and wipe the tables between cases.
 
 ```bash
-pytest
+python -m pytest
 ```
 
 Override the URL with `TEST_DATABASE_URL` if needed (`postgresql+psycopg://...`).
