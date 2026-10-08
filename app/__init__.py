@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from app.payments import bp
 from app.provider import MockPaymentProvider
 
-DEFAULT_DATABASE_URL = "postgresql+psycopg://shop:shop@localhost:5432/shop"
+DEFAULT_DATABASE_URL = "postgresql+psycopg://shop:shop@127.0.0.1:5434/shop"
 
 
 def create_app(database_url=None, provider=None):

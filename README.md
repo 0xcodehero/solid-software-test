@@ -20,7 +20,7 @@ Windows PowerShell:
 ```powershell
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-$env:DATABASE_URL = "postgresql+psycopg://shop:shop@localhost:5432/shop"
+$env:DATABASE_URL = "postgresql+psycopg://shop:shop@127.0.0.1:5434/shop"
 Get-Content schema\001_base.sql, schema\002_payments.sql | docker compose exec -T db psql -U shop -d shop
 flask --app app run
 ```
@@ -30,7 +30,7 @@ Git Bash on Windows:
 ```bash
 source .venv/Scripts/activate
 pip install -r requirements.txt
-export DATABASE_URL=postgresql+psycopg://shop:shop@localhost:5432/shop
+export DATABASE_URL=postgresql+psycopg://shop:shop@127.0.0.1:5434/shop
 cat schema/001_base.sql schema/002_payments.sql | docker compose exec -T db psql -U shop -d shop
 flask --app app run
 python -m pytest
@@ -48,7 +48,7 @@ curl -X POST http://127.0.0.1:5000/carts/c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1/pa
 
 ## Tests
 
-The tests create a `shop_test` database on the same Postgres (user `shop`, password `shop`, port 5432), load both SQL files, and wipe the tables between cases.
+The tests create a `shop_test` database on the same Postgres (user `shop`, password `shop`, host port 5434), load both SQL files, and wipe the tables between cases.
 
 ```bash
 python -m pytest

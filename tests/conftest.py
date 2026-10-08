@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
 
 from app import create_app
 from app.provider import MockPaymentProvider
-DEFAULT_TEST_URL = "postgresql+psycopg://shop:shop@localhost:5432/shop_test"
+DEFAULT_TEST_URL = "postgresql+psycopg://shop:shop@127.0.0.1:5434/shop_test"
 
 
 @pytest.fixture(scope="session")
@@ -56,7 +56,11 @@ def clean_tables(app):
 
 def _ensure_database(sqlalchemy_url):
     name = sqlalchemy_url.rsplit("/", 1)[-1]
-    with psycopg.connect(_admin_dsn(sqlalchemy_url), autocommit=True) as conn:
+    with psycopg.connect(
+        _admin_dsn(sqlalchemy_url),
+        autocommit=True,
+        connect_timeout=5,
+    ) as conn:
         row = conn.execute(
             "SELECT 1 FROM pg_database WHERE datname = %s",
             (name,),
@@ -67,7 +71,7 @@ def _ensure_database(sqlalchemy_url):
 
 def _load_schema(sqlalchemy_url):
     dsn = sqlalchemy_url.replace("postgresql+psycopg://", "postgresql://", 1)
-    with psycopg.connect(dsn, autocommit=True) as conn:
+    with psycopg.connect(dsn, autocommit=True, connect_timeout=5) as conn:
         conn.execute("DROP SCHEMA public CASCADE")
         conn.execute("CREATE SCHEMA public")
         for filename in ("001_base.sql", "002_payments.sql"):
